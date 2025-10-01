@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { product } from './productModels/product';
 import { electronics } from './productModels/electronics';
 import { clothing } from './productModels/clothing';
+import { cart } from './cartModels/cart';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -30,4 +31,13 @@ console.log(
 );
 console.log(
   `We also have this new ${jacket.name}, which has discounted price of ${jacket.getDiscountedPrice(0.15)}$ from ${jacket.price}$\n`,
+);
+
+// Sample cart test cases
+const newCart = new cart(book, 5);
+
+console.log('\nCart test cases:\n');
+
+console.log(
+  `You have ${newCart.quantity} ${newCart.product.name} in your cart.\nTotal price:${newCart.getTotal()}$`,
 );
