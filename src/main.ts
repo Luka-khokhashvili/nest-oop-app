@@ -4,6 +4,7 @@ import { product } from './productModels/product';
 import { electronics } from './productModels/electronics';
 import { clothing } from './productModels/clothing';
 import { cart } from './cartModels/cart';
+import { shoppingCart } from './cartModels/shoppingCart';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,7 +19,7 @@ const hoodie = new clothing(301, 'Hawks jersie', 120, 'S');
 const jacket = new clothing(302, 'Typescript merch', 95, 'L');
 
 // Plase enter discount amount from 0.1 to 0.9
-console.log('\nProduct test cases:\n');
+console.log('\n|||| Product test cases ||||\n');
 
 console.log(
   `Book ${book.name} costs ${book.price}$ but is discounted to ${book.getDiscountedPrice(0.2)}$\n`,
@@ -34,10 +35,36 @@ console.log(
 );
 
 // Sample cart test cases
-const newCart = new cart(book, 5);
+const bookCart = new cart(book, 5);
+const laptopCart = new cart(laptop, 3);
+const hoodieCart = new cart(hoodie, 4);
 
-console.log('\nCart test cases:\n');
+console.log('\n|||| Cart test cases ||||\n');
 
 console.log(
-  `You have ${newCart.quantity} ${newCart.product.name} in your cart.\nTotal price:${newCart.getTotal()}$`,
+  `You have ${bookCart.quantity} ${bookCart.product.name} in your cart.\nTotal price:${bookCart.getTotal()}$`,
+);
+console.log(
+  `Electorincs cart has ${laptopCart.quantity} ${laptopCart.product.name}.\nTotal price: ${laptopCart.getTotal()}$`,
+);
+
+// Sample shopping cart test case
+const newShoppingCart = new shoppingCart();
+
+// Add items to the shopping cart
+newShoppingCart.addItem(bookCart);
+newShoppingCart.addItem(laptopCart);
+newShoppingCart.addItem(hoodieCart);
+
+console.log('\n|||| Shopping cart test cases ||||\n');
+
+console.log(
+  `Your shopping cart total price is ${newShoppingCart.getTotalPrice()}$\nAfter using your discount code, final price is ${newShoppingCart.getTotalPriceWithDiscount(0.25)}$\n`,
+);
+
+// remove item from shopping cart
+newShoppingCart.removeItem(laptopCart.product.id);
+
+console.log(
+  `After removing all ${laptopCart.product.name} from you shopping cart\nNew total price is ${newShoppingCart.getTotalPrice()}$\nand final price after discount ${newShoppingCart.getTotalPriceWithDiscount(0.25)}$`,
 );
